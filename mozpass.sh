@@ -7,7 +7,7 @@
 ### ./mozpass.sh -g
 
 ### Create hash
-### ./mozpass.sh -h ~/Desktop/mozkey.seed <Password> <Cost>
+### ./mozpass.sh -h <seed file path> <Password> <Cost (otpional)>
 
 function mozhashgen () {
 	local KEY_ARG=$1
