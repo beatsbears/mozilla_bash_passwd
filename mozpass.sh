@@ -7,7 +7,7 @@
 ### ./mozpass.sh -g
 
 ### Create hash
-### ./mozpass.sh -h <seed file path> <Password> <Cost (otpional)>
+### ./mozpass.sh -h ~/Desktop/mozkey.seed <Password> <Cost>
 
 function mozhashgen () {
 	local KEY_ARG=$1
@@ -40,12 +40,14 @@ function mozhashgen () {
 	echo "\n[+] hmac hash: "$HMAC
 
 	# Generate bcrypt using (salt+hmac), user may also optionally specify the bcrypt cost
-	if [ -z "$COST_ARG" ]; then
-		HASH=$(echo $HMAC | htpasswd -n -i -B username | tr -d '\n' | awk -F: '{ print $2 }')
-	else
-		if ! [[ "$COST_ARG" =~ [0-9] ]]; then
-			echo "[!] Cost must be a positive integer, generating hash using Cost=5"
+	if [ -z "$COST_ARG" ]
+		then
 			HASH=$(echo $HMAC | htpasswd -n -i -B username | tr -d '\n' | awk -F: '{ print $2 }')
+	else
+		if ! [[ "$COST_ARG" =~ [0-9] ]]
+			then
+				echo "[!] Cost must be a positive integer, generating hash using Cost=5"
+				HASH=$(echo $HMAC | htpasswd -n -i -B username | tr -d '\n' | awk -F: '{ print $2 }')
 		else
 			HASH=$(echo $HMAC | htpasswd -n -i -B -C $COST_ARG username | tr -d '\n' | awk -F: '{ print $2 }')
 		fi
@@ -54,14 +56,14 @@ function mozhashgen () {
 
 }
 
-# generate a seed file with 128 bytes base64 encoded 
+
 function mozseedgen () {
 	KEY=$(openssl rand 128 -base64)
 	echo $KEY > mozkey.seed
 }
 
 
-# Collect arguments
+# Collect arguements
 MODE=$1
 SEED=$2
 PSWD=$3
@@ -70,13 +72,15 @@ CST=$4
 if [ "$MODE" == "-g" ]; then
 	PWD=$(pwd)
 	mozseedgen
-	echo "[+] Generated a key at "$PWD"/mozkey.seed"
+	echo "[+] Generating a key at "$PWD"/mozkey.seed"
 elif [ "$MODE" == "-h" ]; then
 	mozhashgen $SEED $PSWD $CST
 elif [ -z "$MODE" ]; then
 	echo "You must specify a mode"
+	echo " -h <hash mode>\n -g <generate hmac>"
 	exit 0
 else
 	echo "mode not recognized"
+	echo " -h <hash mode>\n -g <generate hmac>"
 	exit 0
 fi	
