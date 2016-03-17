@@ -4,11 +4,13 @@ Read more here: https://wiki.mozilla.org/WebAppSec/Secure_Coding_Guidelines#Pass
 
 **Usage**
 To generate a new nonce for the hmac hasher, you can use the following command.  You will use this .seed file later to generate the final bcrypt hash.
-> sh mozpass.sh -g 
+> ./mozpass.sh -g 
 
 To create a new hash use the following
-> sh mozpass -h `<path-to-seed-file>` `<Password>` `<Cost (optional)>`
+> ./mozpass.sh -h `<path to seed>` `<Password>` `<Cost 4-31>`
 
-I'm still working to find a way to verify these hashes from the command line, but I've checked that they're valid using other tools such as python's bcrypt 2.0.0
+To verify a password against a stored hash
+> ./mozpass.sh -c `<path to seed>` `<Password to test>` `<path to hash>` 
+
 
 `andrew.scott<at>drownedcoast.xyz`

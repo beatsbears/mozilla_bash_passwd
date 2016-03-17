@@ -7,7 +7,10 @@
 ### ./mozpass.sh -g
 
 ### Create hash
-### ./mozpass.sh -h ~/Desktop/mozkey.seed <Password> <Cost>
+### ./mozpass.sh -h <path to seed> <Password> <Cost>
+
+### Test password
+### ./mozpass.sh -c <path to seed> <Password to test> <path to hash> 
 
 function mozhashgen () {
 	local KEY_ARG=$1
@@ -52,7 +55,8 @@ function mozhashgen () {
 			HASH=$(echo $HMAC | htpasswd -n -i -B -C $COST_ARG username | tr -d '\n' | awk -F: '{ print $2 }')
 		fi
 	fi
-	echo "\n[+] bcrypt hash: "$HASH
+	echo "\n[+] bcrypt hash: "$HASH"\n"
+	echo "is:"$HASH > mozhash.txt
 
 }
 
@@ -62,6 +66,21 @@ function mozseedgen () {
 	echo $KEY > mozkey.seed
 }
 
+
+function testpassword() {
+	local SEED=$1 
+	local PASS=$2
+	local HASH=$3
+
+	# find the original key from the seed file
+	KEY=$(cat $SEED)
+
+	# generate the same hmac as we did before
+	HMAC=$(echo -n "$PASS" | openssl dgst -sha512 -hmac "$KEY")
+
+	# use htpasswd's verify feature in a pretty hacky way
+	RESULT=$(htpasswd -v -b $HASH is $HMAC)
+}
 
 # Collect arguements
 MODE=$1
@@ -75,6 +94,9 @@ if [ "$MODE" == "-g" ]; then
 	echo "[+] Generating a key at "$PWD"/mozkey.seed"
 elif [ "$MODE" == "-h" ]; then
 	mozhashgen $SEED $PSWD $CST
+	echo "[+] Writing hash to "$PWD"/mozhash.txt"
+elif [ "$MODE" == "-c" ]; then
+	testpassword $SEED $PSWD $CST 
 elif [ -z "$MODE" ]; then
 	echo "You must specify a mode"
 	echo " -h <hash mode>\n -g <generate hmac>"
