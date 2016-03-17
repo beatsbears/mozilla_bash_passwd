@@ -1,6 +1,6 @@
 #!/bin/bash
 ## Andrew Scott
-## 2/24/2016
+## 3/16/2016
 
 ## Sample usage
 ### Generate seed
