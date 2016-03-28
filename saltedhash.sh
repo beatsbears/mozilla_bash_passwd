@@ -1,6 +1,6 @@
 #!/bin/bash
 ## Andrew Scott
-## 3/16/2016
+## 3/23/2016
 
 # Demonstrates how salts can add protection against Rainbow Table Attacks
 
