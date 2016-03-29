@@ -1,6 +1,6 @@
 # Password Storage Fundamentals with Bash
 ---
-[Read more here.](https://www.google.com)
+[Read more here.](https://medium.com/@aclaytonscott/examining-password-storage-methods-61819e659edf#.hobzlksw9)
 
 ## Plaintext Storage
 Stores the users plaintext password in a password file.  This may not work on some platforms due to htpasswd.
@@ -21,6 +21,13 @@ An exmaple of how different random Salt values will result in different hashes, 
 
 **Usage**
 > sh saltedhash.sh
+
+
+## Salt + Pepper
+Some basic examples of how Peppers may be used in password hashing.
+
+**Usage**
+> sh saltpepperhash.sh
 
 
 ## Salt + Pepper (Mozilla example)
@@ -49,4 +56,8 @@ An example of how different algorithms generate hashes at different speeds.
 > sh timedhash.sh
 
 
-`andrew.scott<at>drownedcoast.xyz`
+
+
+
+
+### Contact me at `andrew.scott<at>drownedcoast.xyz`
