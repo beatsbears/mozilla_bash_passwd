@@ -16,6 +16,13 @@ function sha256time() {
 	done
 }
 
+# 100 iterations of SHA512
+function sha512time() {
+	for i in `seq 1 100`; do
+		SHA512=$( echo -n "sample_password" | openssl dgst -sha512)
+	done
+}
+
 # 100 iterations of MD5
 function md5time() {
 	for i in `seq 1 100`; do
@@ -31,13 +38,15 @@ function bcrypttime() {
 }
 
 
-echo "Running 1000 iterations of each hash."
+echo "Times for running 100 iterations of each hash algorithm"
 echo "MD5: "
 TIMEMD5="$(TIMEFORMAT='%3R'; time md5time 2>&1 1>/dev/null )"
 echo "\nSHA1: "
 TIMESHA1="$(TIMEFORMAT='%3R'; time sha1time 2>&1 1>/dev/null )"
 echo "\nSHA256: "
 TIMESHA256="$(TIMEFORMAT='%3R'; time sha256time 2>&1 1>/dev/null )"
+echo "\nSHA512: "
+TIMESHA512="$(TIMEFORMAT='%3R'; time sha512time 2>&1 1>/dev/null )"
 echo "\nbcrypt: "
 TIMEBCRYPT="$(TIMEFORMAT='%3R'; time bcrypttime 2>&1 1>/dev/null )"
 
