@@ -60,4 +60,4 @@ An example of how different algorithms generate hashes at different speeds.
 
 
 
-### Contact me at `andrew.scott<at>drownedcoast.xyz`
+##### Contact me at `andrew.scott<at>drownedcoast.xyz`
